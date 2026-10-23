@@ -1,0 +1,9 @@
+{
+  "name": "advisor-quotes",
+  "private": true,
+  "workspaces": ["apps/web", "apps/web-e2e"],
+  "devDependencies": {
+    "@nx/dotnet": "^23.3.0",
+    "nx": "^23.3.0"
+  }
+}

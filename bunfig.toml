@@ -1,0 +1,5 @@
+[install]
+# Isolated linker + global virtual store (Bun 1.4+). Undeclared imports fail under the store:
+# declare them, or add the package to trustedDependencies. See skills/ob-new-project/STANDARD-STACK.md.
+linker = "isolated"
+globalStore = true

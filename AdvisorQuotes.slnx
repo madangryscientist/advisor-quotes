@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/apps/" />
+  <Folder Name="/apps/api-integration-tests/">
+    <Project Path="apps/api-integration-tests/Api.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/apps/api-tests/">
+    <Project Path="apps/api-tests/Api.Tests.csproj" />
+  </Folder>
+  <Folder Name="/apps/api/">
+    <Project Path="apps/api/Api.csproj" />
+  </Folder>
+  <Folder Name="/libs/" />
+  <Folder Name="/libs/pricing-tests/">
+    <Project Path="libs/pricing-tests/Pricing.Tests.csproj" />
+  </Folder>
+  <Folder Name="/libs/pricing/">
+    <Project Path="libs/pricing/Pricing.csproj" />
+  </Folder>
+</Solution>

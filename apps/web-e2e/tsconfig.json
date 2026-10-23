@@ -1,0 +1,19 @@
+{
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "test-results", "playwright-report"],
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"],
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

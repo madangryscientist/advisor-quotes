@@ -1,0 +1,100 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "import", "react", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-floating-promises": "error",
+    "typescript/no-misused-promises": "error",
+    "typescript/consistent-type-assertions": [
+      "error",
+      {
+        "assertionStyle": "never"
+      }
+    ],
+    "typescript/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": true,
+        "ts-nocheck": true,
+        "ts-expect-error": "allow-with-description"
+      }
+    ],
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": false
+      }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": []
+      }
+    ],
+    "no-unused-vars": "error",
+    "no-nested-ternary": "error",
+    "complexity": [
+      "error",
+      {
+        "max": 10
+      }
+    ],
+    "max-depth": [
+      "error",
+      {
+        "max": 3
+      }
+    ],
+    "max-params": [
+      "error",
+      {
+        "max": 4
+      }
+    ],
+    "max-lines": [
+      "error",
+      {
+        "max": 300,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "max-lines-per-function": [
+      "error",
+      {
+        "max": 80,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": ["@tanstack/react-start/server-only"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "rules": {
+        "typescript/consistent-type-assertions": "off",
+        "typescript/no-non-null-assertion": "off",
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["src/lib/log.ts", "scripts/**"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
+  "ignorePatterns": ["dist/**", "node_modules/**", "src/routeTree.gen.ts", "src/server/api.gen.ts"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Api.IntegrationTests",
+  "targets": {
+    "test": { "cache": false }
+  }
+}
