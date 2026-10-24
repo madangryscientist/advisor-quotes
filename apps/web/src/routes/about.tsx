@@ -1,4 +1,4 @@
-import { Body, Callout, Card, PageHeader, Stack, SubsectionHeading } from "@hackcove/ui";
+import { Body, Callout, Card, PageHeader, Stack, SubsectionHeading, TextLink } from "@hackcove/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { getDemoLinks } from "../server/fns";
 
@@ -18,7 +18,7 @@ function AboutPage() {
         title="About this demo"
         subtitle="An adviser quote service: domain modelling, idempotent commands, optimistic concurrency, tracing and tests at every layer"
       />
-      <Stack className="max-w-3xl">
+      <Stack width="narrow">
         {resetsNightly && (
           <Callout tone="info">
             A public demo with made-up clients. Anyone can create and change quotes, and the data
@@ -55,12 +55,9 @@ function AboutPage() {
               <SubsectionHeading>Follow a request</SubsectionHeading>
               <Body as="p">
                 Every API response carries an <code>X-Trace-Id</code> header. Create or move a
-                quote, then open the{" "}
-                <a href={tracesUrl} className="link">
-                  trace viewer
-                </a>{" "}
-                and find the <code>command SaveQuote</code> span, its <code>price</code> span and
-                the SQL beneath it.
+                quote, then open the <TextLink href={tracesUrl}>trace viewer</TextLink> and find the{" "}
+                <code>command SaveQuote</code> span, its <code>price</code> span and the SQL beneath
+                it.
               </Body>
             </Stack>
           </Card>
@@ -73,9 +70,7 @@ function AboutPage() {
 function LinkItem({ href, children }: { href: string; children: string }) {
   return (
     <li>
-      <a href={href} className="link">
-        {children}
-      </a>
+      <TextLink href={href}>{children}</TextLink>
     </li>
   );
 }

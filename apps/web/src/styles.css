@@ -4,8 +4,3 @@
 @source "../node_modules/@hackcove/ui/dist";
 
 /* Light: Thrifty Paper. Dark palette: Catppuccin Mocha, (c) 2021 Catppuccin, MIT. */
-
-/* Thrifty Paper paints its canvas on its scope; Mocha leaves it to the app. Mantle, so the base-coloured cards lift off it. */
-.dark {
-  background-color: #181825;
-}

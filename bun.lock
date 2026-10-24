@@ -12,9 +12,9 @@
     "apps/web": {
       "name": "web",
       "dependencies": {
-        "@hackcove/theme-catppuccin-mocha": "^0.2.3",
-        "@hackcove/theme-thrifty-paper": "^0.1.0",
-        "@hackcove/ui": "^0.2.3",
+        "@hackcove/theme-catppuccin-mocha": "^0.2.4",
+        "@hackcove/theme-thrifty-paper": "^0.1.3",
+        "@hackcove/ui": "^0.2.4",
         "@opentelemetry/api": "^1.10.0",
         "@opentelemetry/context-async-hooks": "^3.0.0",
         "@opentelemetry/core": "^3.0.0",
@@ -125,11 +125,11 @@
 
     "@grpc/proto-loader": ["@grpc/proto-loader@0.8.1", "", { "dependencies": { "lodash.camelcase": "^4.3.0", "long": "^5.0.0", "protobufjs": "^7.5.5", "yargs": "^17.7.2" }, "bin": { "proto-loader-gen-types": "build/bin/proto-loader-gen-types.js" } }, "sha512-wtF6h+DY6M3YaDBPAmvuuA6jV8Sif9MjtOI5euKFWRgCDl5PeDpPsHR9u2l6St5ceY8AZgoNDww5+HvEsXFsGg=="],
 
-    "@hackcove/theme-catppuccin-mocha": ["@hackcove/theme-catppuccin-mocha@0.2.3", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-MRJi9hJuck4lrKVrku6R1VUgv3uZSeDmcH/fvuk5nXekMnHQiYAUwkF21bPQowi6T7XgND5WNcPaL/wQ8h0QrA=="],
+    "@hackcove/theme-catppuccin-mocha": ["@hackcove/theme-catppuccin-mocha@0.2.4", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-8OFsmKcfPPoVk3R1/yFfOW6ni40hrEGQYSGI36s2K1ra/6eGuIHonM+hMSo9zEdrXvWH8SkTKlKNWGQPREGbPA=="],
 
-    "@hackcove/theme-thrifty-paper": ["@hackcove/theme-thrifty-paper@0.1.0", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-2adg+gLbRsyGCVivj5arEd8TzTVomdtu39VpJTkW+aHP0+5OuIcW7Mce31zSb7gJQqfbZW3pJqwR6nQrlQrfnA=="],
+    "@hackcove/theme-thrifty-paper": ["@hackcove/theme-thrifty-paper@0.1.3", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-/AtTrcgu3tAS9JkJb3RANCYLPkkXF2ozWnhI4XwWkPTfflW2YULw2RYue+3TqcjtCWmvpvsGkxhd69ydd/epvw=="],
 
-    "@hackcove/ui": ["@hackcove/ui@0.2.3", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" } }, "sha512-PSqbMEmORUVD0BqaI+K32Xn2Vfi3eyDgt2HUVqILx8HX+pBUzy6eT+uHNsSzW02eJJzewgqC5FaK3tjkwEwkPA=="],
+    "@hackcove/ui": ["@hackcove/ui@0.2.4", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" } }, "sha512-2PoFYdfbJV85FNLlxZq0h+LqA5Nlrjrt++ieucQ9ahDK0I3NyhrGxoe+zwAQoppwbcT6jjxcoQorbmiWkFo1Rg=="],
 
     "@internationalized/date": ["@internationalized/date@3.12.4", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-M1dEn4c1U1HsSlaVR8upZtSqvXrTkHDfv18H01uCSJyjVLDxnBR38v/fMxecmlwXKR4i9HeZcmgQAPE6A+aGJQ=="],
 
