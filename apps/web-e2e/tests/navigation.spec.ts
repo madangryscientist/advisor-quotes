@@ -26,3 +26,17 @@ test("the header tabs navigate client-side and the active tab follows the route"
     await page.evaluate(() => (window as unknown as Record<string, unknown>)["navMarker"]),
   ).toBe("kept");
 });
+
+test("clicking the brand logo goes to the quotes list client-side", async ({ page }) => {
+  await open(page, "/about");
+  await page.evaluate(() => {
+    (window as unknown as Record<string, unknown>)["navMarker"] = "kept";
+  });
+  // The logo and the label are one link, so a click on the logo alone is a click on the link.
+  const brand = page.getByRole("banner").getByRole("link", { name: "Advisor Quotes" });
+  await brand.getByText("AQ").click();
+  await expect(page).toHaveURL(/\/quotes$/);
+  expect(
+    await page.evaluate(() => (window as unknown as Record<string, unknown>)["navMarker"]),
+  ).toBe("kept");
+});

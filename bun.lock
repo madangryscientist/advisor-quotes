@@ -14,7 +14,7 @@
       "dependencies": {
         "@hackcove/theme-catppuccin-mocha": "^0.2.5",
         "@hackcove/theme-thrifty-paper": "^0.1.4",
-        "@hackcove/ui": "^0.2.5",
+        "@hackcove/ui": "^0.2.6",
         "@opentelemetry/api": "^1.10.0",
         "@opentelemetry/context-async-hooks": "^3.0.0",
         "@opentelemetry/core": "^3.0.0",
@@ -129,7 +129,7 @@
 
     "@hackcove/theme-thrifty-paper": ["@hackcove/theme-thrifty-paper@0.1.4", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-jUw7Da+MnKeKCKoEAN2lTbDzbimncVH12UBY8EzElXrlOrjdX9EnP6L41VTJavaQeiNAHeBFy6llJ3fPxnVk5w=="],
 
-    "@hackcove/ui": ["@hackcove/ui@0.2.5", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" } }, "sha512-nBRohmjp2vlDLPLJhfUHFOwQex3IAcy1gbIM44vDtXNtxKCpwIUMl7KGCS5+ieOaZMlTGIc9AYMzqg8ZaW5pxw=="],
+    "@hackcove/ui": ["@hackcove/ui@0.2.6", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" } }, "sha512-7jluA9DsxkoKNagd0ilMsQAmAzGgoy82Am5sKfg/U25UxreqXwa77HgkmoxGH6T1US9Tt5pGbgrl5F+fuIYRiA=="],
 
     "@internationalized/date": ["@internationalized/date@3.12.4", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-M1dEn4c1U1HsSlaVR8upZtSqvXrTkHDfv18H01uCSJyjVLDxnBR38v/fMxecmlwXKR4i9HeZcmgQAPE6A+aGJQ=="],
 

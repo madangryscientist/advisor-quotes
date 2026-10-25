@@ -1,13 +1,13 @@
 import {
   AppShell,
+  AppShellBrand,
   Avatar,
   Body,
   Caption,
   ColourSchemeToggle,
   NavTabs,
   Select,
-  appShellRootClass,
-  schemeClass,
+  appShellRootClassFor,
 } from "@hackcove/ui";
 import {
   HeadContent,
@@ -61,7 +61,7 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: ReactNode }) {
   const theme = Route.useLoaderData({ select: (data) => data.theme }) ?? "light";
   return (
-    <html lang="en" className={`${schemeClass(theme, SCHEMES)} ${appShellRootClass}`}>
+    <html lang="en" className={appShellRootClassFor(theme, SCHEMES)}>
       <head>
         <HeadContent />
       </head>
@@ -94,12 +94,11 @@ function RootLayout() {
 
 function AppBrand() {
   return (
-    <>
-      <Avatar name="AQ" />
-      <Link to="/quotes" search={{ status: undefined }}>
-        Advisor Quotes
-      </Link>
-    </>
+    <AppShellBrand
+      logo={<Avatar name="AQ" />}
+      label="Advisor Quotes"
+      render={(props) => <Link to="/" {...props} />}
+    />
   );
 }
 
@@ -160,7 +159,6 @@ function AdviserPicker() {
       </Body>
       <Select
         id="acting-as"
-        width="auto"
         value={adviserId}
         onChange={async (event: ChangeEvent<HTMLSelectElement>) => {
           await setAdviserId({ data: event.target.value });
