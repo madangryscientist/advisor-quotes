@@ -1,9 +1,9 @@
-import { Body, Breadcrumbs, Callout, PageHeader, crumbLinkClass } from "@hackcove/ui";
+import { Body, Breadcrumbs, Callout, PageHeader, type LinkRenderProps } from "@hackcove/ui";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { getQuote } from "../server/fns";
 import type { QuoteDetails } from "../server/quotes-api";
-import { QuotesCrumb } from "./-crumbs";
+import { quotesCrumb } from "./-crumbs";
 import { QuoteForm } from "./-quote-form";
 
 export const Route = createFileRoute("/quotes_/$quoteId_/edit")({
@@ -21,17 +21,15 @@ function EditQuotePage() {
   const breadcrumbs = (
     <Breadcrumbs
       crumbs={[
-        <QuotesCrumb key="quotes" />,
+        quotesCrumb,
         ...(result.ok
           ? [
-              <Link
-                key="quote"
-                to="/quotes/$quoteId"
-                params={{ quoteId }}
-                className={crumbLinkClass}
-              >
-                {result.value.externalReference ?? "Quote"}
-              </Link>,
+              {
+                label: result.value.externalReference ?? "Quote",
+                render: (props: LinkRenderProps) => (
+                  <Link to="/quotes/$quoteId" params={{ quoteId }} {...props} />
+                ),
+              },
             ]
           : []),
         "Edit",

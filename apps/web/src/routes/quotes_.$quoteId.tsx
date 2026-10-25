@@ -1,9 +1,10 @@
 import {
   Body,
-  BodyStrong,
   Breadcrumbs,
   Callout,
   Caption,
+  Timeline,
+  TimelineItem,
   Card,
   DetailLayout,
   KeyValue,
@@ -19,7 +20,7 @@ import { formatDay, formatDayAndTime, productLabel, statusLabel, statusTone } fr
 import { money } from "../money";
 import { getQuote } from "../server/fns";
 import type { QuoteDetails } from "../server/quotes-api";
-import { QuotesCrumb } from "./-crumbs";
+import { quotesCrumb } from "./-crumbs";
 import { QuoteActions } from "./-quote-actions";
 
 export const Route = createFileRoute("/quotes_/$quoteId")({
@@ -32,10 +33,7 @@ function QuotePage() {
   if (!result.ok) {
     return (
       <>
-        <PageHeader
-          breadcrumbs={<Breadcrumbs crumbs={[<QuotesCrumb key="quotes" />, "Quote"]} />}
-          title="Quote"
-        />
+        <PageHeader breadcrumbs={<Breadcrumbs crumbs={[quotesCrumb, "Quote"]} />} title="Quote" />
         <Callout tone="danger" title="Could not load the quote">
           <Body>{result.error.message}</Body>
         </Callout>
@@ -46,9 +44,7 @@ function QuotePage() {
   const currency = quote.currency ?? "ZAR";
   return (
     <DetailLayout
-      breadcrumbs={
-        <Breadcrumbs crumbs={[<QuotesCrumb key="quotes" />, quote.externalReference ?? "Quote"]} />
-      }
+      breadcrumbs={<Breadcrumbs crumbs={[quotesCrumb, quote.externalReference ?? "Quote"]} />}
       title={quote.externalReference ?? "Quote"}
       subtitle={quote.clientName ?? ""}
       aside={
@@ -98,7 +94,7 @@ function ClientCard({ quote }: { quote: QuoteDetails }) {
         {quote.notes && (
           <Stack gap="sm">
             <Overline>Notes</Overline>
-            <Body as="p" className="whitespace-pre-line">
+            <Body as="p" preserveNewlines>
               {quote.notes}
             </Body>
           </Stack>
@@ -114,21 +110,17 @@ function StatusHistory({ history }: { history: NonNullable<QuoteDetails["history
       {history.length === 0 ? (
         <Body>No status changes yet.</Body>
       ) : (
-        <ol aria-label="Status history" className="space-y-4">
+        <Timeline label="Status history">
           {history.map((change) => (
-            <li key={`${change.changedAt}-${change.to}`}>
-              <Stack gap="sm">
-                <BodyStrong>
-                  {change.from ? statusLabel(change.from) : "New"} → {statusLabel(change.to)}
-                </BodyStrong>
-                <Caption>
-                  {change.changedBy} · {formatDayAndTime(change.changedAt)}
-                </Caption>
-                {change.reason && <Body as="p">{change.reason}</Body>}
-              </Stack>
-            </li>
+            <TimelineItem
+              key={`${change.changedAt}-${change.to}`}
+              title={`${change.from ? statusLabel(change.from) : "New"} → ${statusLabel(change.to)}`}
+              time={`${change.changedBy} · ${formatDayAndTime(change.changedAt)}`}
+            >
+              {change.reason}
+            </TimelineItem>
           ))}
-        </ol>
+        </Timeline>
       )}
     </Card>
   );

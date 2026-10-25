@@ -1,4 +1,14 @@
-import { Body, Callout, Card, PageHeader, Stack, SubsectionHeading, TextLink } from "@hackcove/ui";
+import {
+  Body,
+  BulletList,
+  Callout,
+  Card,
+  PageHeader,
+  Stack,
+  SubsectionHeading,
+  TextLink,
+  Video,
+} from "@hackcove/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { getDemoLinks } from "../server/fns";
 
@@ -29,16 +39,16 @@ function AboutPage() {
           <Card>
             <Stack gap="sm">
               <SubsectionHeading>Walkthrough</SubsectionHeading>
-              <video controls preload="metadata" src={videoUrl} className="w-full">
+              <Video src={videoUrl}>
                 <a href={videoUrl}>Download the walkthrough</a>
-              </video>
+              </Video>
             </Stack>
           </Card>
         )}
         <Card>
           <Stack gap="sm">
             <SubsectionHeading>Read the code</SubsectionHeading>
-            <ul className="list-disc pl-6">
+            <BulletList>
               <LinkItem href={REPO}>The repository</LinkItem>
               <LinkItem href={`${REPO}/blob/main/SOLUTION.md`}>
                 SOLUTION.md: design, trade-offs and the AWS plan
@@ -46,7 +56,7 @@ function AboutPage() {
               <LinkItem href={`${REPO}/blob/main/libs/pricing/README.md`}>
                 How the premium is calculated
               </LinkItem>
-            </ul>
+            </BulletList>
           </Stack>
         </Card>
         {tracesUrl && (

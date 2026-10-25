@@ -11,7 +11,7 @@ import {
   Select,
   Stack,
   Textarea,
-  buttonClass,
+  ButtonLink,
   fromISODate,
   toISODate,
 } from "@hackcove/ui";
@@ -164,25 +164,14 @@ export function QuoteForm({
           <Field label="Client name" htmlFor="clientName" error={errorOf("clientName")}>
             <Input autoComplete="off" {...text("clientName")} />
           </Field>
-          {/* DatePicker has no way to show a server error, so the API's own is shown under it. A half-typed date reports null. */}
-          <Stack gap="sm">
-            <DatePicker
-              label="Date of birth"
-              name="clientDateOfBirth"
-              description={
-                errorOf("clientDateOfBirth")
-                  ? undefined
-                  : "Aged 18 to 65 when the quote is created."
-              }
-              value={fromISODate(values.clientDateOfBirth)}
-              onChange={(date) => setValues({ ...values, clientDateOfBirth: toISODate(date) })}
-            />
-            {errorOf("clientDateOfBirth") && (
-              <p role="alert" className="text-xs text-red-700">
-                {errorOf("clientDateOfBirth")}
-              </p>
-            )}
-          </Stack>
+          <DatePicker
+            label="Date of birth"
+            name="clientDateOfBirth"
+            description="Aged 18 to 65 when the quote is created."
+            error={errorOf("clientDateOfBirth")}
+            value={fromISODate(values.clientDateOfBirth)}
+            onChange={(date) => setValues({ ...values, clientDateOfBirth: toISODate(date) })}
+          />
           <Field label="Smoker" htmlFor="clientIsSmoker" error={errorOf("clientIsSmoker")}>
             <Checkbox
               id="clientIsSmoker"
@@ -214,17 +203,21 @@ function FormActions({
     <>
       <Body>The premium is calculated on the server when you save.</Body>
       {quote ? (
-        <Link
-          to="/quotes/$quoteId"
-          params={{ quoteId: quote.quoteId ?? "" }}
-          className={buttonClass("ghost")}
+        <ButtonLink
+          variant="ghost"
+          render={(props) => (
+            <Link to="/quotes/$quoteId" params={{ quoteId: quote.quoteId ?? "" }} {...props} />
+          )}
         >
           Cancel
-        </Link>
+        </ButtonLink>
       ) : (
-        <Link to="/quotes" search={{ status: undefined }} className={buttonClass("ghost")}>
+        <ButtonLink
+          variant="ghost"
+          render={(props) => <Link to="/quotes" search={{ status: undefined }} {...props} />}
+        >
           Cancel
-        </Link>
+        </ButtonLink>
       )}
       <Button type="submit" variant="primary" busy={pending} busyLabel="Saving…">
         {submitLabel}

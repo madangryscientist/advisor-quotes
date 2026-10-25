@@ -1,13 +1,21 @@
 import {
   Body,
   Callout,
+  Caption,
   Card,
   FilterGroup,
   ListLayout,
   Pill,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+  TextLink,
   ToggleChip,
-  buttonClass,
+  ButtonLink,
 } from "@hackcove/ui";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { formatDay, productLabel, statusLabel, statusTone } from "../labels";
@@ -43,9 +51,9 @@ function QuotesPage() {
     title: "Quotes",
     subtitle: "Your clients' quotes, newest first",
     actions: (
-      <Link to="/quotes/new" className={buttonClass("primary")}>
+      <ButtonLink variant="primary" render={(props) => <Link to="/quotes/new" {...props} />}>
         New quote
-      </Link>
+      </ButtonLink>
     ),
   };
   const filters = (
@@ -84,26 +92,24 @@ function QuotesPage() {
       isEmpty={result.value.length === 0}
       empty={<NoQuotes status={status} />}
     >
-      <section className="overflow-x-auto rounded-xl border border-slate-200/70 bg-white shadow-sm">
-        <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="border-b border-slate-200 bg-slate-50 text-xs tracking-wide text-slate-500 uppercase">
-            <tr>
-              <th className="px-5 py-3 font-medium">Reference</th>
-              <th className="px-5 py-3 font-medium">Client</th>
-              <th className="px-5 py-3 font-medium">Product</th>
-              <th className="px-5 py-3 text-right font-medium">Cover</th>
-              <th className="px-5 py-3 text-right font-medium">Premium / month</th>
-              <th className="px-5 py-3 font-medium">Status</th>
-              <th className="px-5 py-3 font-medium">Updated</th>
-            </tr>
-          </thead>
-          <tbody>
-            {result.value.map((quote) => (
-              <QuoteRow key={quote.quoteId} quote={quote} />
-            ))}
-          </tbody>
-        </table>
-      </section>
+      <Table caption="Quotes">
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell>Reference</TableHeaderCell>
+            <TableHeaderCell>Client</TableHeaderCell>
+            <TableHeaderCell>Product</TableHeaderCell>
+            <TableHeaderCell align="end">Cover</TableHeaderCell>
+            <TableHeaderCell align="end">Premium / month</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+            <TableHeaderCell>Updated</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {result.value.map((quote) => (
+            <QuoteRow key={quote.quoteId} quote={quote} />
+          ))}
+        </TableBody>
+      </Table>
     </ListLayout>
   );
 }
@@ -118,9 +124,9 @@ function NoQuotes({ status }: { status: QuoteStatus | undefined }) {
             : `No quotes are ${statusLabel(status).toLowerCase()}.`}
         </Body>
         {status === undefined && (
-          <Link to="/quotes/new" className={buttonClass("outline")}>
+          <ButtonLink variant="outline" render={(props) => <Link to="/quotes/new" {...props} />}>
             Create the first quote
-          </Link>
+          </ButtonLink>
         )}
       </Stack>
     </Card>
@@ -133,33 +139,34 @@ type QuoteSummary = Extract<Awaited<ReturnType<typeof listQuotes>>, { ok: true }
 function QuoteRow({ quote }: { quote: QuoteSummary }) {
   const currency = quote.currency ?? "ZAR";
   return (
-    <tr className="relative border-t border-slate-200 text-slate-700 first:border-t-0 hover:bg-slate-50">
-      <td className="px-5 py-3 font-mono text-xs">
-        <Link
-          to="/quotes/$quoteId"
-          params={{ quoteId: quote.quoteId ?? "" }}
-          className="text-violet-600 after:absolute after:inset-0 hover:text-violet-700"
+    <TableRow>
+      <TableCell mono>
+        <TextLink
+          stretch
+          render={(props) => (
+            <Link to="/quotes/$quoteId" params={{ quoteId: quote.quoteId ?? "" }} {...props} />
+          )}
         >
           {quote.externalReference}
-        </Link>
-      </td>
-      <td className="px-5 py-3 font-medium text-slate-900">{quote.clientName}</td>
-      <td className="px-5 py-3">
+        </TextLink>
+      </TableCell>
+      <TableCell tone="strong">{quote.clientName}</TableCell>
+      <TableCell>
         {productLabel(quote.productCode)}
-        <span className="text-slate-500"> · {quote.termYears} yrs</span>
-      </td>
-      <td className="px-5 py-3 text-right tabular-nums">
+        <Caption> · {quote.termYears} yrs</Caption>
+      </TableCell>
+      <TableCell align="end" numeric>
         {money(quote.coverAmount ?? 0, currency)}
-      </td>
-      <td className="px-5 py-3 text-right font-medium text-slate-900 tabular-nums">
+      </TableCell>
+      <TableCell align="end" tone="strong" numeric>
         {money(quote.premium ?? 0, currency)}
-      </td>
-      <td className="px-5 py-3">
+      </TableCell>
+      <TableCell>
         <Pill tone={statusTone(quote.status)} dot>
           {statusLabel(quote.status)}
         </Pill>
-      </td>
-      <td className="px-5 py-3 whitespace-nowrap text-slate-500">{formatDay(quote.updatedAt)}</td>
-    </tr>
+      </TableCell>
+      <TableCell tone="muted">{formatDay(quote.updatedAt)}</TableCell>
+    </TableRow>
   );
 }

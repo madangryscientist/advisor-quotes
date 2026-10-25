@@ -1,4 +1,14 @@
-import { Body, Button, Callout, Card, Field, Stack, Textarea, buttonClass } from "@hackcove/ui";
+import {
+  Body,
+  Button,
+  ButtonGroup,
+  ButtonLink,
+  Callout,
+  Card,
+  Field,
+  Stack,
+  Textarea,
+} from "@hackcove/ui";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
@@ -148,7 +158,20 @@ export function QuoteActions({ quote }: { quote: QuoteDetails }) {
                 }
               />
             </Field>
-            <div className="flex flex-wrap gap-2">
+            <ButtonGroup
+              end={
+                editable ? (
+                  <ButtonLink
+                    variant="ghost"
+                    render={(props) => (
+                      <Link to="/quotes/$quoteId/edit" params={{ quoteId }} {...props} />
+                    )}
+                  >
+                    Edit
+                  </ButtonLink>
+                ) : undefined
+              }
+            >
               {actions.map((action) => (
                 <Button
                   key={action.label}
@@ -161,16 +184,7 @@ export function QuoteActions({ quote }: { quote: QuoteDetails }) {
                   {action.label}
                 </Button>
               ))}
-              {editable && (
-                <Link
-                  to="/quotes/$quoteId/edit"
-                  params={{ quoteId }}
-                  className={`${buttonClass("ghost")} ml-auto`}
-                >
-                  Edit
-                </Link>
-              )}
-            </div>
+            </ButtonGroup>
           </>
         )}
       </Stack>
