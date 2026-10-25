@@ -40,3 +40,15 @@ test("clicking the brand logo goes to the quotes list client-side", async ({ pag
     await page.evaluate(() => (window as unknown as Record<string, unknown>)["navMarker"]),
   ).toBe("kept");
 });
+
+test("an unknown URL shows the not-found page inside the shell, and its button goes home", async ({
+  page,
+}) => {
+  await open(page, "/no-such-page");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/not found/i);
+  // The shell stays: the header's tabs are still there.
+  await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
+
+  await page.getByRole("main").getByRole("link", { name: "Back to home" }).click();
+  await expect(page).toHaveURL(/\/quotes$/);
+});
