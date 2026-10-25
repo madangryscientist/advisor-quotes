@@ -3,6 +3,7 @@ import {
   BulletList,
   Callout,
   Card,
+  Code,
   PageHeader,
   Stack,
   SubsectionHeading,
@@ -40,7 +41,7 @@ function AboutPage() {
             <Stack gap="sm">
               <SubsectionHeading>Walkthrough</SubsectionHeading>
               <Video src={videoUrl}>
-                <a href={videoUrl}>Download the walkthrough</a>
+                <TextLink href={videoUrl}>Download the walkthrough</TextLink>
               </Video>
             </Stack>
           </Card>
@@ -64,9 +65,9 @@ function AboutPage() {
             <Stack gap="sm">
               <SubsectionHeading>Follow a request</SubsectionHeading>
               <Body as="p">
-                Every API response carries an <code>X-Trace-Id</code> header. Create or move a
+                Every API response carries an <Code>X-Trace-Id</Code> header. Create or move a
                 quote, then open the <TextLink href={tracesUrl}>trace viewer</TextLink> and find the{" "}
-                <code>command SaveQuote</code> span, its <code>price</code> span and the SQL beneath
+                <Code>command SaveQuote</Code> span, its <Code>price</Code> span and the SQL beneath
                 it.
               </Body>
             </Stack>
@@ -79,8 +80,8 @@ function AboutPage() {
 
 function LinkItem({ href, children }: { href: string; children: string }) {
   return (
-    <li>
+    <Body as="li">
       <TextLink href={href}>{children}</TextLink>
-    </li>
+    </Body>
   );
 }
