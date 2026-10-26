@@ -14,7 +14,7 @@
       "dependencies": {
         "@hackcove/theme-catppuccin-mocha": "^0.2.7",
         "@hackcove/theme-thrifty-paper": "^0.1.6",
-        "@hackcove/ui": "^0.4.1",
+        "@hackcove/ui": "^0.4.2",
         "@opentelemetry/api": "^1.10.0",
         "@opentelemetry/context-async-hooks": "^3.0.0",
         "@opentelemetry/core": "^3.0.0",
@@ -129,7 +129,7 @@
 
     "@hackcove/theme-thrifty-paper": ["@hackcove/theme-thrifty-paper@0.1.6", "", { "peerDependencies": { "tailwindcss": "^4" } }, "sha512-iOvcjEn5ri4AJSBF2t1M9DSKVlA6tGlBzjQJHPdjnfQJFuRbKFKUvUK4+E7Syim6Bpr3CsCgO3XzeKd+e+zsxQ=="],
 
-    "@hackcove/ui": ["@hackcove/ui@0.4.1", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "@types/react": ">=18", "@types/react-dom": ">=18", "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-4rLfGuhMDXs4SiZRRO8uo2RH6d+fGj1SmymujR1NxeCY48P1VD7/gw3qmuFdYtL+HOzzu8rMWfJIFzzjUZOI/A=="],
+    "@hackcove/ui": ["@hackcove/ui@0.4.2", "", { "dependencies": { "@internationalized/date": "^3.12.4", "react-aria-components": "^1.22.1" }, "peerDependencies": { "@types/react": ">=18", "@types/react-dom": ">=18", "react": ">=18", "react-dom": ">=18", "tailwindcss": "^4" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-wSpuZss4Rdrh2uLzbn+r9yHL+53JhZOxzcTZcH3qSo1MI2ioQmUpmqjKf64UIDP2zlsVUEEbuIqIn/3SKJ3jSA=="],
 
     "@internationalized/date": ["@internationalized/date@3.12.4", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-M1dEn4c1U1HsSlaVR8upZtSqvXrTkHDfv18H01uCSJyjVLDxnBR38v/fMxecmlwXKR4i9HeZcmgQAPE6A+aGJQ=="],
 

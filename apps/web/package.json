@@ -16,7 +16,7 @@
   "dependencies": {
     "@hackcove/theme-catppuccin-mocha": "^0.2.7",
     "@hackcove/theme-thrifty-paper": "^0.1.6",
-    "@hackcove/ui": "^0.4.1",
+    "@hackcove/ui": "^0.4.2",
     "@opentelemetry/api": "^1.10.0",
     "@opentelemetry/context-async-hooks": "^3.0.0",
     "@opentelemetry/core": "^3.0.0",
