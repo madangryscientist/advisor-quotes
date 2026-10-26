@@ -6,10 +6,10 @@ import {
   Checkbox,
   DatePicker,
   Field,
+  FormGrid,
   FormLayout,
   Input,
   Select,
-  Stack,
   Textarea,
   ButtonLink,
   fromISODate,
@@ -160,8 +160,8 @@ export function QuoteForm({
         </Callout>
       )}
       <Card title="Client">
-        <Stack>
-          <Field label="Client name" htmlFor="clientName" error={errorOf("clientName")}>
+        <FormGrid>
+          <Field label="Client name" htmlFor="clientName" error={errorOf("clientName")} span="full">
             <Input autoComplete="off" {...text("clientName")} />
           </Field>
           <DatePicker
@@ -182,7 +182,7 @@ export function QuoteForm({
               }
             />
           </Field>
-        </Stack>
+        </FormGrid>
       </Card>
       <CoverFields text={text} errorOf={errorOf} />
     </FormLayout>
@@ -235,8 +235,8 @@ type FieldProps = {
 function CoverFields({ text, errorOf }: FieldProps) {
   return (
     <Card title="Cover">
-      <Stack>
-        <Field label="Product" htmlFor="productCode" error={errorOf("productCode")}>
+      <FormGrid>
+        <Field label="Product" htmlFor="productCode" error={errorOf("productCode")} span="full">
           <Select {...text("productCode")}>
             {PRODUCTS.map((product) => (
               <option key={product.code} value={product.code}>
@@ -251,7 +251,13 @@ function CoverFields({ text, errorOf }: FieldProps) {
           hint="R10 000 to R5 000 000."
           error={errorOf("coverAmount")}
         >
-          <Input type="number" inputMode="numeric" step={1000} {...text("coverAmount")} />
+          <Input
+            type="number"
+            inputMode="numeric"
+            step={1000}
+            align="end"
+            {...text("coverAmount")}
+          />
         </Field>
         <Field
           label="Term (years)"
@@ -259,12 +265,12 @@ function CoverFields({ text, errorOf }: FieldProps) {
           hint="1 to 30 years."
           error={errorOf("termYears")}
         >
-          <Input type="number" inputMode="numeric" {...text("termYears")} />
+          <Input type="number" inputMode="numeric" align="end" {...text("termYears")} />
         </Field>
-        <Field label="Notes" htmlFor="notes" hint="Optional." error={errorOf("notes")}>
+        <Field label="Notes" htmlFor="notes" hint="Optional." error={errorOf("notes")} span="full">
           <Textarea {...text("notes")} />
         </Field>
-      </Stack>
+      </FormGrid>
     </Card>
   );
 }

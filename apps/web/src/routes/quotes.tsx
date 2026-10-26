@@ -2,11 +2,10 @@ import {
   Body,
   Callout,
   Caption,
-  Card,
+  EmptyState,
   FilterGroup,
   ListLayout,
   Pill,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -60,7 +59,7 @@ function QuotesPage() {
     <FilterGroup legend="Status">
       <ToggleChip
         pressed={status === undefined}
-        onClick={() => navigate({ search: { status: undefined } })}
+        onClick={() => void navigate({ search: { status: undefined } })}
       >
         All
       </ToggleChip>
@@ -68,7 +67,7 @@ function QuotesPage() {
         <ToggleChip
           key={s}
           pressed={status === s}
-          onClick={() => navigate({ search: { status: s } })}
+          onClick={() => void navigate({ search: { status: s } })}
         >
           {statusLabel(s)}
         </ToggleChip>
@@ -115,21 +114,21 @@ function QuotesPage() {
 }
 
 function NoQuotes({ status }: { status: QuoteStatus | undefined }) {
-  return (
-    <Card>
-      <Stack>
-        <Body as="p">
-          {status === undefined
-            ? "No quotes yet for this adviser."
-            : `No quotes are ${statusLabel(status).toLowerCase()}.`}
-        </Body>
-        {status === undefined && (
-          <ButtonLink variant="outline" render={(props) => <Link to="/quotes/new" {...props} />}>
-            Create the first quote
-          </ButtonLink>
-        )}
-      </Stack>
-    </Card>
+  return status === undefined ? (
+    <EmptyState
+      title="No quotes yet"
+      actions={
+        <ButtonLink variant="outline" render={(props) => <Link to="/quotes/new" {...props} />}>
+          Create the first quote
+        </ButtonLink>
+      }
+    >
+      <Body as="p">This adviser has not created a quote.</Body>
+    </EmptyState>
+  ) : (
+    <EmptyState title={`No ${statusLabel(status).toLowerCase()} quotes`}>
+      <Body as="p">Pick another status, or All, to see the rest.</Body>
+    </EmptyState>
   );
 }
 

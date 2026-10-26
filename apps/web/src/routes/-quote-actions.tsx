@@ -24,6 +24,8 @@ type QuoteAction = {
   busyLabel: string;
   /** A decline must say why; the other moves take an optional note. */
   reasonRequired: boolean;
+  /** Accepting is the one move that is good news, so it is green. */
+  tone?: "positive";
   /** Each move is its own command; the arrow defers the server function to the click. */
   run: (data: StatusChange) => ReturnType<typeof sendQuoteToClient>;
 };
@@ -38,6 +40,7 @@ const accept: QuoteAction = {
   label: "Accept",
   busyLabel: "Accepting…",
   reasonRequired: false,
+  tone: "positive",
   run: (data) => acceptQuote({ data }),
 };
 const decline: QuoteAction = {
@@ -128,6 +131,48 @@ const nextStepByStatus = new Map<string, string>([
   ["Declined", "The quote was declined. It is final."],
 ]);
 
+/** The status moves as buttons, and Edit at the far end while the quote is a Draft. */
+function MoveButtons({
+  quoteId,
+  actions,
+  editable,
+  change,
+}: {
+  quoteId: string;
+  actions: readonly QuoteAction[];
+  editable: boolean;
+  change: ReturnType<typeof useStatusChange>;
+}) {
+  return (
+    <ButtonGroup
+      end={
+        editable ? (
+          <ButtonLink
+            variant="ghost"
+            render={(props) => <Link to="/quotes/$quoteId/edit" params={{ quoteId }} {...props} />}
+          >
+            Edit
+          </ButtonLink>
+        ) : undefined
+      }
+    >
+      {actions.map((action) => (
+        <Button
+          key={action.label}
+          variant={action.reasonRequired ? "outline" : "primary"}
+          tone={action.tone}
+          busy={change.pending === action}
+          busyLabel={action.busyLabel}
+          disabledReason={change.pending ? "Another change is in progress" : undefined}
+          onClick={() => void change.run(action)}
+        >
+          {action.label}
+        </Button>
+      ))}
+    </ButtonGroup>
+  );
+}
+
 /** The moves legal from the quote's status, each its own command, plus Edit while it is a Draft. */
 export function QuoteActions({ quote }: { quote: QuoteDetails }) {
   const quoteId = quote.quoteId ?? "";
@@ -135,12 +180,20 @@ export function QuoteActions({ quote }: { quote: QuoteDetails }) {
   const actions = actionsByStatus.get(quote.status ?? "") ?? [];
   const editable = quote.status === "Draft";
   const nextStep = nextStepByStatus.get(quote.status ?? "");
+  const movable = actions.length > 0 || editable;
 
   return (
-    <Card title="Next step">
+    <Card
+      title="Next step"
+      footer={
+        movable ? (
+          <MoveButtons quoteId={quoteId} actions={actions} editable={editable} change={change} />
+        ) : undefined
+      }
+    >
       <Stack>
         {nextStep && <Body as="p">{nextStep}</Body>}
-        {(actions.length > 0 || editable) && (
+        {movable && (
           <>
             {change.error && <ChangeError error={change.error} refresh={change.refresh} />}
             <Field
@@ -158,33 +211,6 @@ export function QuoteActions({ quote }: { quote: QuoteDetails }) {
                 }
               />
             </Field>
-            <ButtonGroup
-              end={
-                editable ? (
-                  <ButtonLink
-                    variant="ghost"
-                    render={(props) => (
-                      <Link to="/quotes/$quoteId/edit" params={{ quoteId }} {...props} />
-                    )}
-                  >
-                    Edit
-                  </ButtonLink>
-                ) : undefined
-              }
-            >
-              {actions.map((action) => (
-                <Button
-                  key={action.label}
-                  variant={action.reasonRequired ? "outline" : "primary"}
-                  busy={change.pending === action}
-                  busyLabel={action.busyLabel}
-                  disabledReason={change.pending ? "Another change is in progress" : undefined}
-                  onClick={() => void change.run(action)}
-                >
-                  {action.label}
-                </Button>
-              ))}
-            </ButtonGroup>
           </>
         )}
       </Stack>

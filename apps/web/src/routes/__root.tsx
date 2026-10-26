@@ -160,9 +160,8 @@ function AdviserPicker() {
       <Select
         id="acting-as"
         value={adviserId}
-        onChange={async (event: ChangeEvent<HTMLSelectElement>) => {
-          await setAdviserId({ data: event.target.value });
-          await router.invalidate();
+        onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+          void setAdviserId({ data: event.target.value }).then(() => router.invalidate());
         }}
       >
         {options.map((adviser) => (
