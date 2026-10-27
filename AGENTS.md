@@ -61,6 +61,10 @@ bunx nx test Api.IntegrationTests     # or: dotnet test apps/api-integration-tes
 New integration tests derive from `DatabaseTest` (a transaction per test, rolled back) and use
 `[FactRequiresDatabase]` instead of `[Fact]`.
 
+## Landing
+
+Nobody pushes to `main`. In the worktree: gate green, commit with a `State:` line, `git fetch origin && git rebase origin/main`, push the branch, `gh pr create --base main` with the commit body as the PR body. Once the gate is green on the rebased head and the work is `landable`, `gh pr merge --squash --delete-branch`, then deploy and close the ticket. A PR that no longer rebases goes back to its builder.
+
 ## Invariants
 
 - Configuration comes from the environment (`ConnectionStrings__Quotes` and friends), never from a
