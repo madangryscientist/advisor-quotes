@@ -48,7 +48,7 @@ function QuotesPage() {
 
   const header = {
     title: "Quotes",
-    subtitle: "Your clients' quotes, newest first",
+    subtitle: "Your clients' quotes, newest first.",
     actions: (
       <ButtonLink variant="primary" render={(props) => <Link to="/quotes/new" {...props} />}>
         New quote
