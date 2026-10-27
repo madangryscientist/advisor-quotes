@@ -64,6 +64,9 @@ bunx nx show projects                             # Api, Api.Tests, Api.Integrat
 | `OTEL_SERVICE_NAME` | API | `advisor-quotes-api` | Service name on spans and logs |
 | `OTEL_BSP_SCHEDULE_DELAY` | API, web | `5000` | Milliseconds finished spans wait before they are sent; `500` shows a trace within about a second. `OTEL_BLRP_SCHEDULE_DELAY` does the same for the API's log records |
 | `OTEL_WEB_SERVICE_NAME` | web | `advisor-quotes-web` | The web app's service name; its own variable, because `.env` is shared |
+| `Sentry__Dsn`, `Sentry__Release`, `Sentry__Environment` | API | unset: Sentry is never initialised | Error reporting, see [Error reporting to Sentry](#error-reporting-to-sentry) |
+| `SENTRY_DSN`, `SENTRY_RELEASE`, `SENTRY_ENVIRONMENT` | web | unset: Sentry is never initialised | The same for the web app's server side |
+| `SENTRY_SMOKE` | API, web | unset | `1` mounts the deliberate-error route used to verify reporting |
 | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT` | `docker compose` | `quotes`, `quotes`, `quotes`, `5432` | The compose Postgres |
 
 ## Follow a quote through the system
@@ -205,6 +208,45 @@ flowchart LR
 What it leaves out, on purpose: one container is one point of failure, there is no backup (the data is thrown away
 nightly), secrets are files readable only by root and the service account rather than a secrets manager, and there is
 no rate limit beyond Cloudflare's own DDoS protection. For a public demo that is enough; the AWS plan covers the rest.
+
+## Error reporting to Sentry
+
+Unhandled server errors from both runtimes can be reported to Sentry (org `hack-cove`, US region; projects
+`advisor-quotes-api` and `advisor-quotes-web`). It is errors only: no tracing, profiling, session replay, logs or
+breadcrumbs, and the OpenTelemetry tracing described above is untouched. It is **off by default**.
+
+| | API (`apps/api`, `Sentry.AspNetCore`) | Web (`apps/web`, `@sentry/node`) |
+|---|---|---|
+| Turn on | `Sentry__Dsn` | `SENTRY_DSN` |
+| Release | `Sentry__Release`: the short sha of the deployed commit | `SENTRY_RELEASE`, the same sha |
+| Environment | `Sentry__Environment`: `demo` on the server | `SENTRY_ENVIRONMENT` |
+| Verification route | `POST /smoke/sentry` | `GET /smoke/sentry` |
+
+- **On and off.** Set the DSN and restart the unit to turn it on; unset it (or leave it blank) and restart to turn it off.
+  Without a DSN the SDK is never initialised, so nothing is collected and nothing is sent. A test per runtime checks that.
+  The API uses the standard .NET keys, so `appsettings` and environment variables agree. The DSN is a secret-ish value and is
+  never committed: `.env.example` lists the names only.
+- **What leaves.** The exception, its stack trace, the release and the environment. Cookies, `Authorization` and every other
+  header, request bodies, query strings and user data are removed in `beforeSend` before an event is sent, and a test sends an
+  event carrying all of them and checks none is on the wire. Release defaults to `unknown` and environment to `dev` on the web
+  side if left unset.
+- **Browser errors are not captured.** A browser SDK needs the DSN at build time (a `VITE_` variable threaded through the
+  deploy) or a server-to-browser handoff; either is more than this demo needs. The web app reports its server side only.
+- **Verification route.** Setting `SENTRY_SMOKE=1` mounts a route that throws on purpose; without it the path is an ordinary
+  404. Leave it unset except for a one-off check.
+
+On the hosted demo this is a one-off step, because `deploy.sh` lives in the container and not in this repo. Put the DSNs from
+`ob secret get advisor-quotes-api-sentry-dsn` and `advisor-quotes-web-sentry-dsn` into `/etc/advisor-quotes/api.env` and
+`web.env` (readable by root and the service account only), together with `Sentry__Environment=demo` /
+`SENTRY_ENVIRONMENT=demo` and the release set to `git rev-parse --short HEAD` of the checkout after each deploy. Then verify:
+
+```bash
+# add SENTRY_SMOKE=1 to both env files, restart the two units, then on the container:
+curl -si -X POST http://127.0.0.1:5180/smoke/sentry | head -1   # API, loopback only; expect HTTP 500
+curl -si http://127.0.0.1:3000/smoke/sentry | head -1           # web; use the port vite preview listens on; expect HTTP 500
+# each error shows in Sentry tagged with the release sha and environment demo
+# then remove SENTRY_SMOKE from both env files and restart
+```
 
 ## Fallback: .NET and PostgreSQL only
 

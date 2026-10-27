@@ -24,6 +24,7 @@
     "@opentelemetry/resources": "^3.0.0",
     "@opentelemetry/sdk-trace": "^3.0.0",
     "@opentelemetry/semantic-conventions": "^1.43.0",
+    "@sentry/node": "^11.9.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-router": "1.170.45",
     "@tanstack/react-start": "1.169.3",

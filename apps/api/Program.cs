@@ -39,6 +39,7 @@ builder.Services.AddScoped<ICurrentAdviser>(sp => sp.GetRequiredService<CurrentA
 builder.Services.AddScoped<IAdviserDirectory, EfAdviserDirectory>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddTracing(builder.Configuration);
+builder.AddSentryReporting();
 builder.Services.AddApiVersioning(options =>
     {
         options.DefaultApiVersion = ApiRoutes.V1;
@@ -86,5 +87,6 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapHealthChecks("/health/ready");
 app.MapControllers();
+app.MapSentrySmoke();
 
 app.Run();
