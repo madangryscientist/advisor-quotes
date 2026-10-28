@@ -96,6 +96,7 @@ function AppBrand() {
   return (
     <AppShellBrand
       logo={<Avatar name="AQ" />}
+      logoSize="lg"
       label="Advisor Quotes"
       render={(props) => <Link to="/" {...props} />}
     />
